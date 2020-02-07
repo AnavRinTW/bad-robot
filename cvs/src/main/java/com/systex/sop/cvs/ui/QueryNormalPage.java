@@ -429,8 +429,8 @@ public class QueryNormalPage extends JPanel {
 		module_jL.setFont(new Font("微軟正黑體", Font.BOLD, 14));
 		module_jL.setModel(new AbstractListModel() {
 			String[] values = new String[] { "", "dbxml", "util", "qfi", "sbl",
-					"bus", "buk", "bas", "cus", "emm", "cmo", "smt", "stk",
-					"tmap", "sg", "mstl", "ml", "bnp", "cgmi" };
+					"bus", "buk", "bas", "cus", "emm", "cmo", "sls", "smt", "stk",
+					"tmap", "sg", "mstl", "ml", "bnp", "cgmi", "cast" };
 
 			public int getSize() {
 				return values.length;

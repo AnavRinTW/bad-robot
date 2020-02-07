@@ -1,5 +1,6 @@
 package com.systex.sop.cvs.helper;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -11,39 +12,36 @@ import com.systex.sop.cvs.util.TimestampHelper;
 public class CVSFunc {
 	
 	public static String [] fxCmdArray(Timestamp edate) {
-		String [] cmdArray = new String[] { "cvs.exe", "-q", "log", "-S", "-d", "> " + TimestampHelper.convertToyyyyMMdd2(edate) };
+		String [] cmdArray = new String[] { "cvs", "-q", "log", "-S", "-d", "> " + TimestampHelper.convertToyyyyMMdd2(edate) };
 		return cmdArray;
 	}
 	
 	public static String [] fxCmdModifyArray(String version, String filepath, String comment) {
-		String [] cmdArray = new String[] { "cvs.exe", "admin", "-m", StringUtil.concat(version, ":", comment, ""), filepath };
+		String [] cmdArray = new String[] { "cvs", "admin", "-m", StringUtil.concat(version, ":", comment, ""), filepath };
 		return cmdArray;
 	}
 	
 	public static String [] fxCmdVerifyArray(String version, String filepath) {
-		String [] cmdArray = new String[] { "cvs.exe", "-q", "log", StringUtil.concat("-r", version, ":", version), "-N", filepath };
+		String [] cmdArray = new String[] { "cvs", "-q", "log", StringUtil.concat("-r", version, ":", version), "-N", filepath };
 		return cmdArray;
 	}
 	
 	public static String fxLogFilePath(String module, Timestamp edate) {
-		return StringUtil.concat(
+		return new File(
 				PropReader.getProperty("CVS.LOG_PATH"),
-				TimestampHelper.convertToyyyyMMdd(edate), "_", module, ".log"
-		);
+				TimestampHelper.convertToyyyyMMdd(edate) + "_" + module + ".log").toString();
 	}
 	
 	public static String fxModifyFilePath() {
-		return StringUtil.concat(
+		return new File(
 				PropReader.getProperty("CVS.LOG_PATH"),
-				"Modify.log"
-		);
+				"Modify.log").toString();
 	}
 	
 	public static String fxVerifyFilePath(String filename, String version) {
-		return StringUtil.concat(
+		return new File(
 				PropReader.getProperty("CVS.LOG_PATH"),
-				filename, "_", version, ".log"
-		);
+				filename + "_" + version + ".log").toString();
 	}
 	
 	public static String fxModule(String modulePart, char clientServer) {
