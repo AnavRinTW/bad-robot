@@ -14,6 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
@@ -30,6 +32,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import com.systex.sop.cvs.constant.CVSConst.PROG_TYPE;
+import com.systex.sop.cvs.helper.CVSModuleHelper;
 import com.systex.sop.cvs.ui.customize.comp.SSSJButton;
 import com.systex.sop.cvs.ui.customize.comp.SSSJCheckBox;
 import com.systex.sop.cvs.ui.customize.comp.SSSJComboBox;
@@ -428,9 +431,7 @@ public class QueryNormalPage extends JPanel {
 		module_jL.setVisibleRowCount(2);
 		module_jL.setFont(new Font("微軟正黑體", Font.BOLD, 14));
 		module_jL.setModel(new AbstractListModel() {
-			String[] values = new String[] { "", "dbxml", "util", "qfi", "sbl",
-					"bus", "buk", "bas", "cus", "emm", "cmo", "sls", "smt", "stk",
-					"tmap", "sg", "mstl", "ml", "bnp", "cgmi", "cast" };
+			String[] values = loadModules();
 
 			public int getSize() {
 				return values.length;
@@ -521,5 +522,16 @@ public class QueryNormalPage extends JPanel {
 
 	public SSSJTextField getModule_jTxtF() {
 		return module_jTxtF;
+	}
+	
+	public String[] loadModules() {
+		CVSModuleHelper mhelper = new CVSModuleHelper();
+		mhelper.load();
+		Set<String> cvsmodules = mhelper.getMap().keySet();
+		TreeSet<String> modules = new TreeSet<String>();
+		for(String cvsmodule : cvsmodules) {
+			modules.add(cvsmodule.split("-")[1]);
+		}
+		return modules.toArray(new String[modules.size()]);
 	}
 }
